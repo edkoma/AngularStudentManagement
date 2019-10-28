@@ -130,12 +130,12 @@ public class CourseService {
 
 
         UserCourse t1 =  UserCourse.builder()
-            .course(c1)
-            .user(curUser)
+            .course(userCourse.getCourse())
+            .user(curUser.get())
             .build();
 
         try {
-            UserCourseRepository.saveAndFlush(t1);
+            userCourseRepository.saveAndFlush(t1);
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
