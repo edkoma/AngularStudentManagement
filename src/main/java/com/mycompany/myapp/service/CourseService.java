@@ -37,9 +37,9 @@ public class CourseService {
         //Cache
         if (courseDtos.isEmpty()) {
             List<Course> courses = courseRepository.findAll();
-
+            //加上了c.getId()
             for (Course c : courses) {
-                courseDtos.add(new CourseDto(c.getCourseName(), c.getCourseLocation(), c.getCourseContent(), c.getTeacherId()));
+                courseDtos.add(new CourseDto(c.getId(), c.getCourseName(), c.getCourseLocation(), c.getCourseContent(), c.getTeacherId()));
             }
 
             return courseDtos;
@@ -50,6 +50,12 @@ public class CourseService {
 
     public List<CourseDto> findAllCoursesDtoFromDB(){
         return courseRepository.findAllCoursesDto();
+    }
+
+    public List<CourseDto> findAllRegisteredCoursesDtoFromDB(){
+        Optional<User> curUser = userService.getUserWithAuthorities();
+        return courseRepository.findAllRegisteredCoursesDto(curUser.get().getId());
+
     }
 
     public List<CourseWithTNDto> findAllCoursesDtoWithTeacherNameFromDB(){
@@ -81,7 +87,7 @@ public class CourseService {
         Course courseBeingSaved = Course.builder()
             .courseName(course.getCourseName())
             .courseContent(course.getCourseContent())
-            .courseLocation(course.getCourseContent())
+            .courseLocation(course.getCourseLocation())
             .teacherId(course.getTeacherId())
             .build();
 
@@ -121,23 +127,5 @@ public class CourseService {
         existingCourse.setCourseName(course.getCourseName());
         existingCourse.setTeacherId(course.getTeacherId());
 
-    }
-
-    public void addCourseToStudent(UserCourse userCourse) throws Exception {
-
-        Optional<User> curUser = userService.getUserWithAuthorities();
-        // 2 find course from course table
-
-
-        UserCourse t1 =  UserCourse.builder()
-            .course(userCourse.getCourse())
-            .user(curUser.get())
-            .build();
-
-        try {
-            userCourseRepository.saveAndFlush(t1);
-        } catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
     }
 }

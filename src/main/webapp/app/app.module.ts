@@ -1,5 +1,6 @@
 import './vendor.ts';
 
+import { FormsModule } from '@angular/forms';
 import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,7 +30,9 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         JiuzhangquanzhankeHomeModule,
         JiuzhangquanzhankeAccountModule,
         JiuzhangquanzhankeEntityModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
+
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
